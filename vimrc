@@ -91,6 +91,11 @@ augroup end
 
 
 " -------------------------------------- "
+" ------------- Clang format ----------- "
+" -------------------------------------- "
+autocmd FileType cpp ClangFormatAutoEnable
+
+" -------------------------------------- "
 " ----------- GENERAL OPTIONS ---------- "
 " -------------------------------------- "
 set tabstop=2               " number of visual spaces per TAB
