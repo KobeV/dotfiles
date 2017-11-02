@@ -21,6 +21,7 @@ Plugin 'rdnetto/YCM-Generator'
 Plugin 'ervandew/supertab'
 Plugin 'vim-scripts/DoxygenToolkit.vim'     " Simplify Doxygen documentationin C, C++, Python
 Plugin 'kien/ctrlp.vim'                     " Fuzzy file buffer, mru, tag, etc finder
+Plugin 'majutsushi/tagbar'
 
 call vundle#end()                           " required by Vundle
 filetype plugin indent on                   " required by Vundle
@@ -94,6 +95,12 @@ augroup end
 " ------------- Clang format ----------- "
 " -------------------------------------- "
 autocmd FileType cpp ClangFormatAutoEnable
+
+" -------------------------------------- "
+" -------------- Tagbar ---------------- "
+" -------------------------------------- "
+let g:tagbar_sort = 0
+nmap tg :TagbarToggle<cr>
 
 " -------------------------------------- "
 " ----------- GENERAL OPTIONS ---------- "
