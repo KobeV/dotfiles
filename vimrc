@@ -22,6 +22,7 @@ Plugin 'ervandew/supertab'
 Plugin 'vim-scripts/DoxygenToolkit.vim'     " Simplify Doxygen documentationin C, C++, Python
 Plugin 'kien/ctrlp.vim'                     " Fuzzy file buffer, mru, tag, etc finder
 Plugin 'majutsushi/tagbar'
+Plugin 'tell-k/vim-autopep8'                " Python PEP8 coding guidelines
 
 call vundle#end()                           " required by Vundle
 filetype plugin indent on                   " required by Vundle
@@ -83,24 +84,23 @@ let g:ctrlp_working_path_mode='a'
 nmap <leader>p :CtrlPBuffer<cr>
 
 " -------------------------------------- "
-" ------------- Python tabes ----------- "
-" -------------------------------------- "
-augroup python
-  autocmd!
-  autocmd FileType python setlocal ts=2 sts=2 sw=2
-augroup end
-
-
-" -------------------------------------- "
 " ------------- Clang format ----------- "
 " -------------------------------------- "
 autocmd FileType cpp ClangFormatAutoEnable
+
+" -------------------------------------- "
+" ------------- Python PEP8 format ----- "
+" -------------------------------------- "
+"autocmd FileType python Autopep8
+let g:autopep8_disable_show_diff=1
+autocmd BufWritePost *.py Autopep8
 
 " -------------------------------------- "
 " -------------- Tagbar ---------------- "
 " -------------------------------------- "
 let g:tagbar_sort = 0
 nmap tg :TagbarToggle<cr>
+
 
 " -------------------------------------- "
 " ----------- GENERAL OPTIONS ---------- "
@@ -120,6 +120,12 @@ set cursorline              " highlight current line
 set mouse=r                 " enable use of the mouse. Only works for certain terminals
 set smartindent             " use entelligent identation for C-like languages
 set autoread                " Set to auto read when a file is changed from the outside
+
+" disable arrow keys - BAD HABIT!!!!
+noremap <Up> <NOP>
+noremap <Down> <NOP>
+noremap <Left> <NOP>
+noremap <Right> <NOP>
 
 
 " -------------------------------------- "
