@@ -12,7 +12,6 @@ Plugin 'altercation/vim-colors-solarized'   " vim colorscheme
 Plugin 'scrooloose/nerdtree'                " Tree explorer
 Plugin 'christoomey/vim-tmux-navigator'     " Navigate seamlessly between vin and tmux splits
 Plugin 'rhysd/vim-clang-format'             " Clang-formatting in vim
-Plugin 'octol/vim-cpp-enhanced-highlight'   " Enhanced cpp highlighting for c++ 11 / 14
 Plugin 'renyard/vim-rangerexplorer'         " Vim Ranger Explorer
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
@@ -24,6 +23,18 @@ Plugin 'kien/ctrlp.vim'                     " Fuzzy file buffer, mru, tag, etc f
 Plugin 'majutsushi/tagbar'
 Plugin 'tell-k/vim-autopep8'                " Python PEP8 coding guidelines
 
+
+" --------------- Navigators ----------- "
+Plugin 'vim-scripts/mru.vim'                " Most Recently Files
+Plugin 'tyru/open-browser.vim'              " Web browser
+
+" ------------ Highlighters ------------ "
+Plugin 'octol/vim-cpp-enhanced-highlight'   " Enhanced cpp highlighting for c++ 11 / 14
+
+" --------- FileTypeFormatters --------- "
+Plugin 'alfredodeza/jacinto.vim'            "JSON checker and formatter
+
+
 call vundle#end()                           " required by Vundle
 filetype plugin indent on                   " required by Vundle
 
@@ -34,7 +45,7 @@ filetype plugin indent on                   " required by Vundle
 "let g:mapleader = ","                       " g: global variable see :help internal-variables
 
 " -------------------------------------- "
-" -------------- SOLIRIZED ------------- "
+" ------------- SOLIRIZED -------------- "
 " -------------------------------------- "
 syntax enable
 set background=dark
@@ -43,7 +54,29 @@ set t_Co=256
 colorscheme solarized
 
 " -------------------------------------- "
-" --------------- NERDtree ------------- "
+" ---------------- MRU ----------------- "
+" -------------------------------------- "
+nmap mru :MRU<cr>
+let MRU_Use_Current_Window = 0
+let MRU_Auto_Close = 0
+let MRU_Add_Menu = 0
+
+" -------------------------------------- "
+" ------------ cpp highlight ----------- "
+" -------------------------------------- "
+let g:cpp_class_scope_highlight = 1
+let g:cpp_member_variable_highlight = 1
+
+" -------------------------------------- "
+" -------------- Jacinto --------------- "
+" -------------------------------------- "
+nmap json :Jacinto format<cr>
+autocmd BufWritePost *.json Jacinto format
+
+
+
+" -------------------------------------- "
+" -------------- NERDtree ------------- "
 " -------------------------------------- "
 nmap nt :NERDTreeToggle<cr>
 
@@ -121,7 +154,7 @@ set mouse=r                 " enable use of the mouse. Only works for certain te
 set smartindent             " use entelligent identation for C-like languages
 set autoread                " Set to auto read when a file is changed from the outside
 
-" disable arrow keys - BAD HABIT!!!!
+" Disable the use of arrow keys
 noremap <Up> <NOP>
 noremap <Down> <NOP>
 noremap <Left> <NOP>
