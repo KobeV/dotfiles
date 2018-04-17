@@ -1,12 +1,27 @@
 call plug#begin('~/.vim/plugged')
 
 Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'kien/ctrlp.vim'
 Plug 'majutsushi/tagbar'
 Plug 'lifepillar/vim-solarized8'
 Plug 'octol/vim-cpp-enhanced-highlight'   " Enhanced cpp highlighting for c++ 11 / 14
 
 call plug#end()
+
+"disable showmode since using vim-airline; otherwise use 'set showmode'
+set noshowmode
+" =====================================
+" vim-airline status
+" configure: https://github.com/vim-airline/vim-airline#user-content-extensible-pipeline
+" =====================================
+" TODO: show git branch,...
+let g:airline_theme='dark'
+let g:airline_powerline_fonts=1
+" show buffers (if only one tab)
+let g:airline#extensions#tabline#enabled = 1
 
 " -------------------------------------- "
 " -------------- SOLIRIZED8------------- "
