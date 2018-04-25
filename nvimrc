@@ -4,10 +4,12 @@ Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'tpope/vim-fugitive'
 Plug 'kien/ctrlp.vim'
 Plug 'majutsushi/tagbar'
 Plug 'lifepillar/vim-solarized8'
 Plug 'octol/vim-cpp-enhanced-highlight'   " Enhanced cpp highlighting for c++ 11 / 14
+Plug 'w0rp/ale'
 
 call plug#end()
 
@@ -17,11 +19,12 @@ set noshowmode
 " vim-airline status
 " configure: https://github.com/vim-airline/vim-airline#user-content-extensible-pipeline
 " =====================================
-" TODO: show git branch,...
 let g:airline_theme='dark'
 let g:airline_powerline_fonts=1
 " show buffers (if only one tab)
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#show_buffers = 0
+let g:airline#extensions#ale#enabled = 1
 
 " -------------------------------------- "
 " -------------- SOLIRIZED8------------- "
@@ -34,6 +37,11 @@ colorscheme solarized8
 " -------------------------------------- "
 " let g:cpp_class_scope_highlight = 1
 " let g:cpp_member_variable_highlight = 1
+"
+
+" ale cpp guidlines
+let g:ale_cpp_clangtidy_checks=['-*,cppcoreguidelines-*']
+let g:ale_cpp_gcc_executable = 'g++'
 
 " change the leader key from "\" to "," ("," is also popular)
 let mapleader=","
@@ -45,11 +53,13 @@ set cursorline              " highlight current line
 set smartindent             " use entelligent identation for C-like languages
 set autoread                " Set to auto read when a file is changed from the outside
 
-" use ;; for escape
+" use ,, for escape
 " http://vim.wikia.com/wiki/Avoid_the_escape_key
-inoremap ;; <Esc>
+inoremap <leader><leader> <Esc>
 
+" nerdtree
 nnoremap <silent> <leader>nt :NERDTreeToggle<CR>
+let NERDTreeQuitOnOpen=1
 
 " toggle tagbar
 nnoremap <silent> <leader>tb :TagbarToggle<CR>
@@ -70,15 +80,16 @@ nmap <silent> <A-l> <C-w>v<C-l>
 nmap <silent> <A-c> <C-w>c
 
 " create easely new tab
-nmap <silent> <C-t> :tabe<CR>
+nmap <silent> <leader>tb :tabe<CR>
 
 " Shortcut to edit THIS configuration file: (e)dit (c)onfiguration
 nnoremap <silent> <leader>ec :e $NVIMRC<CR>
 " Shortcut to source (reload) THIS configuration file after editing it: (s)ource (c)onfiguraiton
 nnoremap <silent> <leader>sc :source $NVIMRC<CR>
 
-" clear search pattern: ,cp
-nmap <silent> <leader>cp :let @/=""<CR>
+" clear search pattern: ,csp - clear automatically when opening nvim
+nmap <silent> <leader>csp :let @/=""<CR>
+autocmd VimEnter * :let @/=""
 
 " closing current window without saving, will not work if file is edited but
 " not safed ,q
