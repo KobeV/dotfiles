@@ -1,172 +1,211 @@
-" -------------------------------------- "
-" ----------- PLUGIN LOADING ----------- "
-" -------------------------------------- "
-set nocompatible                            " disable vi compatibility (emulation of old bugs)
-filetype off                                " required by Vundle plugin
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+" ------------------------------------------------------------------ "
+" ------------------------- PLUGIN LOADING ------------------------- "
+" ------------------------------------------------------------------ "
+set nocompatible	" disable vi compatibility (emulation of old bugs)
+
+call plug#begin('~/.vim/plugged')
 
 
-Plugin 'gmarik/Vundle.vim'                  " Let Vundle manage Vundle
-Plugin 'altercation/vim-colors-solarized'   " vim colorscheme
-Plugin 'scrooloose/nerdtree'                " Tree explorer
-Plugin 'christoomey/vim-tmux-navigator'     " Navigate seamlessly between vin and tmux splits
-Plugin 'rhysd/vim-clang-format'             " Clang-formatting in vim
-Plugin 'renyard/vim-rangerexplorer'         " Vim Ranger Explorer
-Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
-Plugin 'Valloric/YouCompleteMe'             " Code-completion engine: completer + syntax checker
-Plugin 'rdnetto/YCM-Generator'
-Plugin 'ervandew/supertab'
-Plugin 'vim-scripts/DoxygenToolkit.vim'     " Simplify Doxygen documentationin C, C++, Python
-Plugin 'kien/ctrlp.vim'                     " Fuzzy file buffer, mru, tag, etc finder
-Plugin 'majutsushi/tagbar'
-Plugin 'tell-k/vim-autopep8'                " Python PEP8 coding guidelines
+" === vim colorscheme === "
+Plug 'lifepillar/vim-solarized8'
+" === Vim status bar === "
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
+" === Tree explorer === "
+Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+" === Fuzzy file buffer, mru, tag, etc finder === "
+Plug 'kien/ctrlp.vim' 
+Plug 'majutsushi/tagbar'
+
+" === Git wrapper === "
+Plug 'tpope/vim-fugitive'
+
+" === Snippets === "
+"Plug 'SirVer/ultisnips'
+"Plug 'honza/vim-snippets'
+
+" === Code completion === "
+"Plug 'Valloric/YouCompleteMe'
+"Plug 'rdnetto/YCM-Generator'
+"Plug 'ervandew/supertab'
+
+" === Asynchronous Lint Engine === "
+Plug 'w0rp/ale'
+
+" === C++ === "
+" Enhanced cpp highlighting for c++ 11 / 14
+Plug 'octol/vim-cpp-enhanced-highlight'
+
+" === Python === "
+" Python PEP8 coding guidelines
+"Plug 'tell-k/vim-autopep8'
+
+" === Documentation === "
+"Plug 'vim-scripts/DoxygenToolkit.vim' " Simplify Doxygen documentationin C, C++, Python
+"Plug 'heavenshell/vim-pydocstring'        " python docstring
 
 
-" --------------- Navigators ----------- "
-Plugin 'vim-scripts/mru.vim'                " Most Recently Files
-Plugin 'tyru/open-browser.vim'              " Web browser
+" TODO
+" Plug 'tpope/vim-obsession'
+" Plug 'editorconfig/editorconfig-vim'
+" Plug 'godlygeek/tabular'
+" Plug 'benmills/vimux'
+" Plug 'christoomey/vim-tmux-navigator' " Navigate seamlessly between vin and tmux splits
+" Plug 'junegunn/fzf.vim'
+" Plugin 'rhysd/vim-clang-format'             " Clang-formatting in vim
 
-" ------------ Highlighters ------------ "
-Plugin 'octol/vim-cpp-enhanced-highlight'   " Enhanced cpp highlighting for c++ 11 / 14
 
-" --------- FileTypeFormatters --------- "
-Plugin 'alfredodeza/jacinto.vim'            "JSON checker and formatter
+call plug#end()
+" ------------------------------------------------------------------ "
 
 
-call vundle#end()                           " required by Vundle
-filetype plugin indent on                   " required by Vundle
+" ------------------------------------------------------------------ "
+" ----------------------------- LEADER ----------------------------- "
+" ------------------------------------------------------------------ "
+let mapleader=","
+let g:mapleader = ","
+" ------------------------------------------------------------------ "
 
-" -------------------------------------- "
-" --------------- LEADER --------------- "
-" -------------------------------------- "
-"let mapleader = ","                         " , is leader key, used as <leader> in key bindings
-"let g:mapleader = ","                       " g: global variable see :help internal-variables
+" ------------------------------------------------------------------ "
+" ---------------------------- PLUGIN'S ---------------------------- "
+" ------------------------------------------------------------------ "
 
-" -------------------------------------- "
-" ------------- SOLIRIZED -------------- "
-" -------------------------------------- "
-syntax enable
+" === Vim solorized8 colorscheme === "
 set background=dark
-let g:solarized_termcolors=256
-set t_Co=256
-colorscheme solarized
+colorscheme solarized8
 
-" -------------------------------------- "
-" ---------------- MRU ----------------- "
-" -------------------------------------- "
-nmap mru :MRU<cr>
-let MRU_Use_Current_Window = 0
-let MRU_Auto_Close = 0
-let MRU_Add_Menu = 0
+" === Vim-airline === "
+set noshowmode
+let g:airline_theme='dark'
+let g:airline_powerline_fonts=1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#show_buffers = 0
+let g:airline#extensions#ale#enabled = 1
 
-" -------------------------------------- "
-" ------------ cpp highlight ----------- "
-" -------------------------------------- "
-let g:cpp_class_scope_highlight = 1
-let g:cpp_member_variable_highlight = 1
-
-" -------------------------------------- "
-" -------------- Jacinto --------------- "
-" -------------------------------------- "
-nmap json :Jacinto format<cr>
-autocmd BufWritePost *.json Jacinto format
-
-
-
-" -------------------------------------- "
-" -------------- NERDtree ------------- "
-" -------------------------------------- "
-nmap nt :NERDTreeToggle<cr>
-
-" -------------------------------------- "
-" ----------- Ranger-explorer ---------- "
-" -------------------------------------- "
-nmap re :RangerExplorer<cr>
-
-" -------------------------------------- "
-" ----------- YouCompleteMe ------------ "
-" -------------------------------------- "
-"nmap <leader>ycmc :YcmCompleter<cr>
-"nmap <leader>ycmd :YcmDiags<cr>
-"let g:ycm_complete_in_comments = 0
-" make YCM work together with syntastic: turn of the YCM diagnostic display
-" features because it removes all other Syntastic checkers when set.
-" let g:ycm_show_diagnostics_ui = 0
-" make YCM compatible with UltiSnips (using supertab)
-let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
-let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
-let g:ycm_server_python_interpreter='python2'
-" -------------------------------------- "
-" -------------- SuperTab -------------- "
-" -------------------------------------- "
-let g:SuperTabDefaultCompletionType = '<C-n>'
-" -------------------------------------- "
-" ------------- UltiSnips -------------- "
-" -------------------------------------- "
-" better key bindings for UltiSnipsExpandTrigger
-let g:UltiSnipsExpandTrigger = "<tab>"
-let g:UltiSnipsJumpForwardTrigger = "<tab>"
-let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
-
-" -------------------------------------- "
-" -------------- ctrlp ----------------- "
-" -------------------------------------- "
+" === NerdTree: ,nt === "
+nnoremap <silent> <leader>nt :NERDTreeToggle<CR>
+let NERDTreeQuitOnOpen=1
+" === ctrlp === "
 let g:ctrlp_working_path_mode='a'
 nmap <leader>p :CtrlPBuffer<cr>
-
-" -------------------------------------- "
-" ------------- Clang format ----------- "
-" -------------------------------------- "
-autocmd FileType cpp ClangFormatAutoEnable
-
-" -------------------------------------- "
-" ------------- Python PEP8 format ----- "
-" -------------------------------------- "
-"autocmd FileType python Autopep8
-let g:autopep8_disable_show_diff=1
-autocmd BufWritePost *.py Autopep8
-
-" -------------------------------------- "
-" -------------- Tagbar ---------------- "
-" -------------------------------------- "
+" === toggle tagbar: ,tb === "
 let g:tagbar_sort = 0
-nmap tg :TagbarToggle<cr>
+nnoremap <silent> <leader>tg :TagbarToggle<CR>
+
+" TODO: vim-fugitive keybindings
 
 
-" -------------------------------------- "
-" ----------- GENERAL OPTIONS ---------- "
-" -------------------------------------- "
-set tabstop=2               " number of visual spaces per TAB
-set softtabstop=2           " number of spaces in tab when editing
-set shiftwidth=2            " nuber of spaces for each step of (auto)indentAL OPTIONS
-set expandtab               " convert tab to spaces
+" === YouCompleteMe === "
+"make YCM compatible with UltiSnips (using supertab)
+"let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+"let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+"let g:ycm_server_python_interpreter='python2'
 
-set hlsearch                " highlight matches
-set showmatch               " highlight matchin [{()}]
+" === SuperTab === "
+"let g:SuperTabDefaultCompletionType = '<C-n>'
 
-" set number                  " show line numbers
+" === UltiSnips === "
+" better key bindings for UltiSnipsExpandTrigger
+"let g:UltiSnipsExpandTrigger = "<tab>"
+"let g:UltiSnipsJumpForwardTrigger = "<tab>"
+"let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+
+" === cpp highlighting === "
+"let g:cpp_class_scope_highlight = 1
+"let g:cpp_member_variable_highlight = 1
+
+" === ale cpp guidelines === "
+let g:ale_cpp_clangtidy_checks=['-*,cppcoreguidelines-*']
+let g:ale_cpp_gcc_executable = 'g++'
+
+" === Clang format === "
+"autocmd FileType cpp ClangFormatAutoEnable
+
+" === Python PEP8 format === "
+"autocmd FileType python Autopep8
+"let g:autopep8_disable_show_diff=1
+"autocmd BufWritePost *.py Autopep8
+
+" === JSON formatting === "
+"command Json execute "%!python3 -m json.tool"
+"autocmd BufWritePost *.json Json
+
+" === Pydocstring === "
+"let g:pydocstring_enable_mapping = 0
+"let g:pydocstring_templates_dir = '/home/knest/.vim/templates/pydocstring'
+
+" ------------------------------------------------------------------ "
+
+
+" ------------------------------------------------------------------ "
+" ------------------------ GENERAL OPTIONS ------------------------- "
+" ------------------------------------------------------------------ "
+
+"set number                  " show line numbers
 set relativenumber
 set colorcolumn=80          " keep lines 100 characters at most
 set cursorline              " highlight current line
-set mouse=r                 " enable use of the mouse. Only works for certain terminals
 set smartindent             " use entelligent identation for C-like languages
 set autoread                " Set to auto read when a file is changed from the outside
+set hlsearch                " highlight matches
+set showmatch               " highlight matchin [{()}]
 
-" Disable the use of arrow keys
+" === Better window navigation === "
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-h> <C-w>h
+nnoremap <C-l> <C-w>l
+
+" === split easely windows === "
+set splitright
+set splitbelow
+nmap <silent> <A-k> <C-w>s<C-k>
+nmap <silent> <A-j> <C-w>s<C-j>
+nmap <silent> <A-h> <C-w>v<C-h>
+nmap <silent> <A-l> <C-w>v<C-l>
+
+" === disable arrow keys - BAD HABIT!!!! === "
 noremap <Up> <NOP>
 noremap <Down> <NOP>
 noremap <Left> <NOP>
 noremap <Right> <NOP>
 
+" === config file shortcuts === "
+" Shortcut to edit THIS configuration file: (e)dit (c)onfiguration
+nnoremap <silent> <leader>ec :e $NVIMRC<CR>
+" Shortcut to source (reload) THIS configuration file after editing it: (s)ource (c)onfiguraiton
+nnoremap <silent> <leader>sc :source $NVIMRC<CR>
 
-" -------------------------------------- "
-" ----------- Other Bindings ----------- "
-" -------------------------------------- "
+" === use ,, for escape === "
+" http://vim.wikia.com/wiki/Avoid_the_escape_key
+inoremap <leader><leader> <Esc>
 
-" --- Smarter moving between split windows
-"map <C-w>o <C-q>
+"=== create easely new tab: ,tb === "
+nmap <silent> <leader>tb :tabe<CR>
 
-set splitright
-set splitbelow
+" === search === "
+" (c)lear (s)earch (p)attern: ,csp
+nmap <silent> <leader>csp :let @/=""<CR>
+" clear automatically when opening nvim
+autocmd VimEnter * :let @/=""
+
+" === closing current window: ,q === "
+nmap <silent> <leader>q :q<CR>
+
+" === Terminal mode === "
+" Start terminal in insert mode: ,t
+nnoremap <silent> <leader>t :terminal<CR>:startinsert<CR> 
+" Open new tab with terminal: ,tt
+nnoremap <silent> <leader>tt :tabe<CR>:terminal<CR>:startinsert<CR>
+" Vertical split in terminal mode: ,tv
+nnoremap <silent> <leader>tv :vnew<CR>:terminal<CR>:startinsert<CR>
+" Horizontal split in terminal mode: ,th
+nnoremap <silent> <leader>th :new<CR>:terminal<CR>:startinsert<CR>
+" Ctrl-X to exit terminal mode and close window
+tnoremap <C-x> <C-\><C-n><C-w>q
+" Ctrl-Q to exit terminal mode
+tnoremap <C-q> <C-\><C-n>
+
+" ------------------------------------------------------------------ "
