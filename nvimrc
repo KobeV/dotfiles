@@ -1,39 +1,65 @@
 " ------------------------------------------------------------------ "
 " ------------------------- PLUGIN LOADING ------------------------- "
 " ------------------------------------------------------------------ "
-set nocompatible                            " disable vi compatibility (emulation of old bugs)
+set nocompatible	" disable vi compatibility (emulation of old bugs)
 
 call plug#begin('~/.vim/plugged')
 
 
-" vim colorscheme
+" === vim colorscheme === "
 Plug 'lifepillar/vim-solarized8'
-" Vim status bar
+" === Vim status bar === "
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
-" Tree explorer
+" === Tree explorer === "
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
-" Fuzzy file buffer, mru, tag, etc finder
+" === Fuzzy file buffer, mru, tag, etc finder === "
 Plug 'kien/ctrlp.vim' 
 Plug 'majutsushi/tagbar'
 
-" Git wrapper
+" === Git wrapper === "
 Plug 'tpope/vim-fugitive'
 
-" Asynchronous Lint Engine 
+" === Snippets === "
+"Plug 'SirVer/ultisnips'
+"Plug 'honza/vim-snippets'
+
+" === Code completion === "
+"Plug 'Valloric/YouCompleteMe'
+"Plug 'rdnetto/YCM-Generator'
+"Plug 'ervandew/supertab'
+
+" === Asynchronous Lint Engine === "
 Plug 'w0rp/ale'
 
+" === C++ === "
 " Enhanced cpp highlighting for c++ 11 / 14
 Plug 'octol/vim-cpp-enhanced-highlight'
+
+" === Python === "
+" Python PEP8 coding guidelines
+Plug 'tell-k/vim-autopep8'
+
+" === Formatters === "
+" Clang-formatting in vim
+Plug 'rhysd/vim-clang-format' 
+
+" === Documentation === "
+"Plug 'vim-scripts/DoxygenToolkit.vim' " Simplify Doxygen documentationin C, C++, Python
+"Plug 'heavenshell/vim-pydocstring'        " python docstring
+
 
 " TODO
 " Plug 'tpope/vim-obsession'
 " Plug 'editorconfig/editorconfig-vim'
 " Plug 'godlygeek/tabular'
 " Plug 'benmills/vimux'
+" Plug 'christoomey/vim-tmux-navigator' " Navigate seamlessly between vin and tmux splits
 " Plug 'junegunn/fzf.vim'
+" syntastic??
+" sphinx docs
 
 
 call plug#end()
@@ -66,18 +92,56 @@ let g:airline#extensions#ale#enabled = 1
 " === NerdTree: ,nt === "
 nnoremap <silent> <leader>nt :NERDTreeToggle<CR>
 let NERDTreeQuitOnOpen=1
-" === toggle tagbar: ,tb === "
-nnoremap <silent> <leader>tb :TagbarToggle<CR>
+" === ctrlp === "
+let g:ctrlp_working_path_mode='a'
+nmap <leader>p :CtrlPBuffer<cr>
+" === toggle tagbar: ,tg === "
+let g:tagbar_sort = 0
+nnoremap <silent> <leader>tg :TagbarToggle<CR>
 
 " TODO: vim-fugitive keybindings
 
-" === cpp highlighting === "
-"let g:cpp_class_scope_highlight = 1
-"let g:cpp_member_variable_highlight = 1
 
-" === ale cpp guidelines === "
-let g:ale_cpp_clangtidy_checks=['-*,cppcoreguidelines-*']
+" === YouCompleteMe === "
+"make YCM compatible with UltiSnips (using supertab)
+"let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+"let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+"let g:ycm_server_python_interpreter='python2'
+
+" === SuperTab === "
+"let g:SuperTabDefaultCompletionType = '<C-n>'
+
+" === UltiSnips === "
+" better key bindings for UltiSnipsExpandTrigger
+"let g:UltiSnipsExpandTrigger = "<tab>"
+"let g:UltiSnipsJumpForwardTrigger = "<tab>"
+"let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+
+" === Clang format === "
+"autocmd FileType cpp ClangFormatAutoEnable
+
+" === ale settings === "
+let g:ale_fixers = {}
+let g:ale_fix_on_save = 1
+let g:ale_linters = {}
+" ale cpp guidelines "
+let g:ale_fixers['cpp'] = ['clang-format']
+let g:ale_linters['cpp'] = ['clang', 'clangtidy', 'cppcheck']
+"let g:ale_cpp_clangtidy_checks=['-*,cppcoreguidelines-*']
 let g:ale_cpp_gcc_executable = 'g++'
+" Python PEP8 format "
+autocmd FileType python Autopep8
+let g:autopep8_disable_show_diff=1
+let g:ale_fixers['python'] = ['autopep8']
+let g:ale_python_pylint_executable = 'pylint3'
+let g:ale_linters['python'] = ['pycodestyle', 'pylint', 'flake8']
+" JSON formatting "
+let g:ale_fixers['json'] = ['fixjson']
+let g:ale_linters['json'] = ['jsonlint']
+
+" === Pydocstring === "
+"let g:pydocstring_enable_mapping = 0
+"let g:pydocstring_templates_dir = '/home/knest/.vim/templates/pydocstring'
 
 " ------------------------------------------------------------------ "
 
@@ -92,6 +156,8 @@ set colorcolumn=80          " keep lines 100 characters at most
 set cursorline              " highlight current line
 set smartindent             " use entelligent identation for C-like languages
 set autoread                " Set to auto read when a file is changed from the outside
+set hlsearch                " highlight matches
+set showmatch               " highlight matchin [{()}]
 
 " === Better window navigation === "
 nnoremap <C-j> <C-w>j
