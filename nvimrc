@@ -23,13 +23,13 @@ Plug 'majutsushi/tagbar'
 Plug 'tpope/vim-fugitive'
 
 " === Snippets === "
-"Plug 'SirVer/ultisnips'
-"Plug 'honza/vim-snippets'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
 
 " === Code completion === "
-"Plug 'Valloric/YouCompleteMe'
-"Plug 'rdnetto/YCM-Generator'
-"Plug 'ervandew/supertab'
+Plug 'Valloric/YouCompleteMe'
+Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
+Plug 'ervandew/supertab'
 
 " === Asynchronous Lint Engine === "
 Plug 'w0rp/ale'
@@ -47,9 +47,12 @@ Plug 'tell-k/vim-autopep8'
 Plug 'rhysd/vim-clang-format' 
 
 " === Documentation === "
-"Plug 'vim-scripts/DoxygenToolkit.vim' " Simplify Doxygen documentationin C, C++, Python
-"Plug 'heavenshell/vim-pydocstring'        " python docstring
+Plug 'vim-scripts/DoxygenToolkit.vim' " Simplify Doxygen documentationin C, C++, Python
+" python docstring
+Plug 'heavenshell/vim-pydocstring'
 
+" === Pre-Viewers === "
+"Plug 'suan/vim-instant-markdown'
 
 " TODO
 " Plug 'tpope/vim-obsession'
@@ -78,8 +81,8 @@ let g:mapleader = ","
 " ------------------------------------------------------------------ "
 
 " === Vim solorized8 colorscheme === "
-set background=dark
-colorscheme solarized8
+colorscheme solarized8_dark
+let g:togglebg="dark"
 
 " === Vim-airline === "
 set noshowmode
@@ -104,44 +107,74 @@ nnoremap <silent> <leader>tg :TagbarToggle<CR>
 
 " === YouCompleteMe === "
 "make YCM compatible with UltiSnips (using supertab)
-"let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
-"let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
-"let g:ycm_server_python_interpreter='python2'
+let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+let g:ycm_server_python_interpreter='/usr/bin/python3'
+"Youcompleteme fix
+"let g:ycm_confirm_extra_conf = 0
+"let g:ycm_compilation_database_folder = '_build/'
+"let g:ycm_extra_conf_vim_data = [ 'g:ycm_compilation_database_folder' ]
 
 " === SuperTab === "
-"let g:SuperTabDefaultCompletionType = '<C-n>'
+let g:SuperTabDefaultCompletionType = '<C-n>'
 
 " === UltiSnips === "
 " better key bindings for UltiSnipsExpandTrigger
-"let g:UltiSnipsExpandTrigger = "<tab>"
-"let g:UltiSnipsJumpForwardTrigger = "<tab>"
-"let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+let g:UltiSnipsExpandTrigger = "<tab>"
+let g:UltiSnipsJumpForwardTrigger = "<tab>"
+let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 
 " === Clang format === "
 "autocmd FileType cpp ClangFormatAutoEnable
 
 " === ale settings === "
+let g:ale_lint_on_enter = 1
 let g:ale_fixers = {}
 let g:ale_fix_on_save = 1
 let g:ale_linters = {}
-" ale cpp guidelines "
+" cpp "
+let g:ale_c_build_dir_names = ['build', 'bin', '_build', '_build_amd64', '_build_arm']
+let g:ale_cpp_build_dir_names = ['build', 'bin', '_build', '_build_amd64', '_build_arm']
 let g:ale_fixers['cpp'] = ['clang-format']
-let g:ale_linters['cpp'] = ['clang', 'clangtidy', 'cppcheck']
+let g:ale_linters['cpp'] = ['clangtidy', 'cppcheck', 'clangcheck']
 "let g:ale_cpp_clangtidy_checks=['-*,cppcoreguidelines-*']
 let g:ale_cpp_gcc_executable = 'g++'
-" Python PEP8 format "
+let g:ale_cpp_clangtidy_executable = 'clang-tidy-5.0'
+let g:ale_cpp_clangtidy_checks = [
+\      '*',
+\      '-llvm*',
+\      '-google*',
+\      '-readability-braces-around-statements'
+\      ]
+let g:ale_cpp_clangcheck_executable = 'clang-check-6.0'
+let g:ale_cpp_cppcheck_executable = 'cppcheck'
+let g:ale_cpp_cppcheck_options = '--enable=all --project=_build/compile_commands.json'
+let g:ale_cpp_clangformat_executable = 'clang-format-4.0'
+let g:ale_c_clangformat_executable = 'clang-format-4.0'
+
+" Python PEP8 "
 autocmd FileType python Autopep8
 let g:autopep8_disable_show_diff=1
 let g:ale_fixers['python'] = ['autopep8']
 let g:ale_python_pylint_executable = 'pylint3'
 let g:ale_linters['python'] = ['pycodestyle', 'pylint', 'flake8']
-" JSON formatting "
+" JSON "
 let g:ale_fixers['json'] = ['fixjson']
 let g:ale_linters['json'] = ['jsonlint']
+" markdown "
+"let g:ale_fixers['markdown'] = ['prettier']
+let g:ale_linters['markdown'] = ['remark-lint', 'markdownlint']
+"let g:ale_javascript_prettier_options = "--print-width 80 --prose-wrap always --parser markdown"
 
 " === Pydocstring === "
-"let g:pydocstring_enable_mapping = 0
-"let g:pydocstring_templates_dir = '/home/knest/.vim/templates/pydocstring'
+let g:pydocstring_enable_mapping = 0
+let g:pydocstring_templates_dir = '/home/knest/.vim/templates/pydocstring'
+
+" === Cmake === "
+let g:ale_cmake_cmakelint_options = '--linelength=100'
+
+" === markdown previewer === "
+"let g:instant_markdown_autostart = 0
 
 " ------------------------------------------------------------------ "
 
@@ -152,12 +185,16 @@ let g:ale_linters['json'] = ['jsonlint']
 
 "set number                  " show line numbers
 set relativenumber
-set colorcolumn=80          " keep lines 100 characters at most
+set colorcolumn=100          " keep lines 100 characters at most
 set cursorline              " highlight current line
 set smartindent             " use entelligent identation for C-like languages
 set autoread                " Set to auto read when a file is changed from the outside
 set hlsearch                " highlight matches
 set showmatch               " highlight matchin [{()}]
+"set expandtab               " convert tab to spaces
+set tabstop=2               " number of visual spaces per TAB
+set softtabstop=2           " number of spaces in tab when editing
+set shiftwidth=2            " nuber of spaces for each step of (auto)indentAL OPTIONS
 
 " === Better window navigation === "
 nnoremap <C-j> <C-w>j
@@ -214,5 +251,29 @@ nnoremap <silent> <leader>th :new<CR>:terminal<CR>:startinsert<CR>
 tnoremap <C-x> <C-\><C-n><C-w>q
 " Ctrl-Q to exit terminal mode
 tnoremap <C-q> <C-\><C-n>
+
+" === Colorschemes === "
+function! Light()
+    echom "bg to light"
+    let g:togglebg="light"
+    colorscheme solarized8_light
+endfunction
+
+function! Dark()
+    echom "bg to dark"
+    let g:togglebg="dark"
+    colorscheme solarized8_dark
+endfunction
+
+function! ToggleLightDark()
+  if g:togglebg == "light"
+    call Dark()
+  else
+    call Light()
+  endif
+endfunction
+
+" toggle colors to optimize based on light or dark background
+nnoremap <leader>c :call ToggleLightDark()<CR>
 
 " ------------------------------------------------------------------ "
