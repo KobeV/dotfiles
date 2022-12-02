@@ -1,4 +1,22 @@
 "***************************************************************************************************
+"" === My nvim cheat sheet ===
+"***************************************************************************************************
+" ,sr => search-and-replace
+"
+" vim-sandwich:
+" - zaiw( makes foo to (foo).
+" - za( makes foo lala to (foo lala).
+"
+" Clipboard Copy Paste Cut
+" YY
+" <leader>p
+" XX
+"
+" visual-multi:
+"
+
+
+"***************************************************************************************************
 "" === Vim-PLug core ===
 "***************************************************************************************************
 if has('vim_starting') " only on startup and not when already running
@@ -173,6 +191,13 @@ Plug 'reedes/vim-wordy'
 Plug 'reedes/vim-litecorrect'
 " Correct common typos and misspellings as you type in Vim
 Plug 'panozzaj/vim-autocorrect'
+
+"
+"" Devcontainer
+"
+"Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'nvim-treesitter/nvim-treesitter'
+Plug 'esensar/nvim-dev-container'
 
 
 "" Include user's extra bundle
@@ -395,7 +420,7 @@ function! ToggleLightDark()
 endfunction
 
 " toggle colors to optimize based on light or dark background
-nnoremap <leader>c :call ToggleLightDark()<CR>
+nnoremap <leader>tcs :call ToggleLightDark()<CR>
 
 
 "
@@ -423,8 +448,8 @@ let g:ale_linters = {}
 " === c/cpp === "
 let g:ale_cpp_gcc_executable = 'g++'
 " Set search paths for the compilation database (compile_commands.json)
-let g:ale_c_build_dir_names = ['build', 'bin', '_build', '_build_amd64', '_build_arm', '_build_compile_commands']
-let g:ale_cpp_build_dir_names = ['build', 'bin', '_build', '_build_amd64', '_build_arm', '_build_compile_commands']
+let g:ale_c_build_dir_names = ['build', 'bin', '_build', '_build-x86_64', '_build-cortex-a8', '_build_compile_commands']
+let g:ale_cpp_build_dir_names = ['build', 'bin', '_build', '_build-x86_64', '_build-cortex-a8', '_build_compile_commands']
 " Set enabled linters and fixers
 let g:ale_fixers['cpp'] = ['clang-format']
 let g:ale_linters['cpp'] = ['clangtidy', 'cppcheck', 'clangcheck', 'flawfinder']
@@ -496,6 +521,25 @@ nmap <leader>ap :ALEPrevious<cr>
 nmap <leader>af :ALEFix<cr>
 nmap <leader>afw :ALEFix remove_trailing_lines<cr>:ALEFix trim_whitespace<cr>
 
+"
+"" vim-sandwich
+"
+
+"remap default keybinding starting with s to z because using default vim s'key
+"is slowing down
+let g:sandwich_no_default_key_mappings = 1
+silent! nmap <unique><silent> zd <Plug>(operator-sandwich-delete)<Plug>(operator-sandwich-release-count)<Plug>(textobj-sandwich-query-a)
+silent! nmap <unique><silent> zr <Plug>(operator-sandwich-replace)<Plug>(operator-sandwich-release-count)<Plug>(textobj-sandwich-query-a)
+silent! nmap <unique><silent> zdb <Plug>(operator-sandwich-delete)<Plug>(operator-sandwich-release-count)<Plug>(textobj-sandwich-auto-a)
+silent! nmap <unique><silent> zrb <Plug>(operator-sandwich-replace)<Plug>(operator-sandwich-release-count)<Plug>(textobj-sandwich-auto-a)
+
+let g:operator_sandwich_no_default_key_mappings = 1
+" add
+silent! map <unique> za <Plug>(operator-sandwich-add)
+" delete
+silent! xmap <unique> zd <Plug>(operator-sandwich-delete)
+" replace
+silent! xmap <unique> zr <Plug>(operator-sandwich-replace)
 
 "
 "" vim-airline
@@ -680,6 +724,10 @@ nnoremap <silent> <leader>ff :FZF -m<CR>
 "nnoremap <silent> <leader>E :History<CR>
 
 "
+" devcontainer
+"
+"require("devcontainer").setup{}
+
 " coc.nvim
 "
 " TextEdit might fail if hidden is not set.
