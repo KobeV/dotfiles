@@ -98,6 +98,8 @@ Plug 'mbbill/undotree'
 Plug 'tpope/vim-fugitive'
 " Show added, modified and removed lines in sign column
 Plug 'mhinz/vim-signify'
+" A plugin to visualise and resolve conflicts in neovim. This plugin was inspired by conflict-marker.vim
+Plug 'akinsho/git-conflict.nvim', {'tag': '*'}
 
 "
 "" C++ / Python
@@ -195,8 +197,7 @@ Plug 'panozzaj/vim-autocorrect'
 "
 "" Devcontainer
 "
-"Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'nvim-treesitter/nvim-treesitter'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'esensar/nvim-dev-container'
 
 
@@ -642,6 +643,11 @@ nmap <leader>gp <plug>(signify-prev-hunk)
 "nmap <leader>gP 9999<leader>gk
 
 "
+"" git-conflict.nvim
+"
+lua require('git-conflict').setup()
+
+"
 "" vim-pencil
 "
 " augroup pencil
@@ -726,7 +732,7 @@ nnoremap <silent> <leader>ff :FZF -m<CR>
 "
 " devcontainer
 "
-"require("devcontainer").setup{}
+lua require("devcontainer").setup{}
 
 " coc.nvim
 "
