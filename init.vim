@@ -206,6 +206,11 @@ if filereadable(expand("~/.config/nvim/local_bundles.vim"))
   source ~/.config/nvim/local_bundles.vim
 endif
 
+"
+"" ToDo
+"
+"https://github.com/tpope/vim-sensible
+
 call plug#end()
 "*******************************************************************************
 "*******************************************************************************

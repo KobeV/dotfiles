@@ -27,3 +27,5 @@ Check bashrc file to configure personal things in .bashrc
 
 # Firefox
 Install firefox, login with account, sync, switch to correct user profile you want to use
+
+# Install postman and postman CLI

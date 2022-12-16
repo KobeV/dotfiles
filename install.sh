@@ -17,6 +17,8 @@ echo "You still need to add this to your ~/.bashrc: exec zsh"
 echo "Install and configure tmux"
 sudo apt install tmux
 ln -s ${DOTFILES}/tmux.conf ~/.tmux.conf
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+# TODO: install plugins automatically or expect we do manual?
 
 echo "Install and configure neovim"
 mkdir -p ~/bin
@@ -36,4 +38,5 @@ dpkg -i ~/Downloads/vscode-insiders.deb
 # Install other used tools
 sudo apt install gitg
 sudo apt install howdoi
+sudo apt install ranger
 
