@@ -138,9 +138,11 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
+export PATH="$HOME/.local/bin:$PATH"
+
 # export MANPATH="/usr/local/man:$MANPATH"
 
-# export TERM='xterm-256color'
+export TERM='xterm-256color'
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
@@ -152,6 +154,7 @@ source $ZSH/oh-my-zsh.sh
 #   export EDITOR='mvim'
 # fi
 export EDITOR='nvim'
+export NVIMRC="/home/knest/.config/nvim/init.vim"
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -173,3 +176,8 @@ export EDITOR='nvim'
  # tmux alias
  alias tmuxconfig="nvim ~/.tmux.conf"
  alias tmuxreload="source ~/.tmux.conf"
+
+
+# Python
+# do not generate .pyc files
+export PYTHONDONTWRITEBYTECODE=1

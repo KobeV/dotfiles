@@ -12,10 +12,20 @@
 " <leader>p
 " XX
 "
-" visual-multi:
+" TODO
+" vim-visual-multi
+" vim-sandwich
+" vim-repeat
+" tcomment
+" fugitive
+" vim-signify
+" git-conflict
+" ale
+" coc
 "
-
-
+"
+"
+"***************************************************************************************************
 "***************************************************************************************************
 "" === Vim-PLug core ===
 "***************************************************************************************************
@@ -38,7 +48,7 @@ if !filereadable(vimplug_exists)
 
   autocmd VimEnter * PlugInstall
 endif
-
+"***************************************************************************************************
 "***************************************************************************************************
 "" === Plug install packages ===
 "***************************************************************************************************
@@ -48,16 +58,16 @@ call plug#begin(expand('~/.config/nvim/plugged')) " required
 "" Navigation
 "
 " Tree explorer
-Plug 'scrooloose/nerdtree'
+Plug 'preservim/nerdtree'
 " A plugin of NERDTree showing git status flags.
 Plug 'Xuyuanp/nerdtree-git-plugin'
 " Vim integration for command-line fuzzy finder
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 " Fuzzy file buffer, mru, tag, etc finder
 "Plug 'kien/ctrlp.vim'
 " Display tags in a window ordered by scope
-Plug 'majutsushi/tagbar'
+Plug 'preservim/tagbar'
 
 "
 "" Visual
@@ -65,7 +75,8 @@ Plug 'majutsushi/tagbar'
 " Highlight indent
 Plug 'Yggdroot/indentLine'
 " Colorscheme
-Plug 'lifepillar/vim-solarized8'
+"Plug 'lifepillar/vim-solarized8'
+Plug 'altercation/vim-colors-solarized'
 " Plug 'tomasr/molokai'
 " Vim status bar
 Plug 'vim-airline/vim-airline'
@@ -89,7 +100,7 @@ Plug 'tomtom/tcomment_vim'
 " Fix trailing whitespace
 Plug 'bronson/vim-trailing-whitespace'
 " Visualize the vim undo tree
-Plug 'mbbill/undotree'
+"Plug 'mbbill/undotree'
 
 "
 "" GIT
@@ -102,24 +113,22 @@ Plug 'mhinz/vim-signify'
 Plug 'akinsho/git-conflict.nvim', {'tag': '*'}
 
 "
-"" C++ / Python
+"" Documentation
 "
 " opening man pages inside another Vim window.
 "Plug 'ludwig/split-manpage.vim'
-" Enhanced C and C++ syntax highlighting
-Plug 'bfrg/vim-cpp-modern'
-" Clang-formatting in vim
-"Plug 'rhysd/vim-clang-format'
 " Simplify Doxygen documentationin C, C++, Python
 Plug 'vim-scripts/DoxygenToolkit.vim'
+
+"
+"" Linting
+"
 " Asynchronous Lint Engine
 Plug 'dense-analysis/ale'
-" Python PEP8 coding guidelines
-"Plug 'tell-k/vim-autopep8'
-" The Requirements File Format syntax support for Vim
-Plug 'raimon49/requirements.txt.vim', {'for': 'requirements'}
-" python docstring
-Plug 'heavenshell/vim-pydocstring'
+
+"
+"" Conquer Of Completion
+"
 " VimL completion for coc.nvim
 Plug 'Shougo/neco-vim'
 " Vim completion source for coc.nvim using neco-vim
@@ -128,7 +137,6 @@ Plug 'neoclide/coc-neco'
 Plug 'Shougo/neoinclude.vim'
 Plug 'jsfaint/coc-neoinclude'
 " coc.nvim
-"Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
 Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install()}}
 
 "
@@ -136,6 +144,24 @@ Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install()}}
 "
 Plug 'Shougo/neosnippet-snippets'
 Plug 'honza/vim-snippets'
+
+"
+"" C++
+"
+" Enhanced C and C++ syntax highlighting
+Plug 'bfrg/vim-cpp-modern'
+" Clang-formatting in vim
+"Plug 'rhysd/vim-clang-format'
+
+"
+"" Python
+"
+" Python PEP8 coding guidelines
+"Plug 'tell-k/vim-autopep8'
+" The Requirements File Format syntax support for Vim
+"Plug 'raimon49/requirements.txt.vim', {'for': 'requirements'}
+" python docstring
+Plug 'heavenshell/vim-pydocstring'
 
 "
 "" Jenkins job dsl
@@ -146,7 +172,7 @@ Plug 'modille/groovy.vim'
 "
 "" Rst
 "
-" Take notes in rst
+ Take notes in rst
 Plug 'Rykka/riv.vim'
 " Instant rst preview in browser
 Plug 'gu-fan/InstantRst'
@@ -174,7 +200,6 @@ Plug 'godlygeek/tabular'
 Plug 'suan/vim-instant-markdown'
 
 
-"
 "" General writing
 "
 " Rethinking Vim as a tool for writers
@@ -197,24 +222,22 @@ Plug 'panozzaj/vim-autocorrect'
 "
 "" Devcontainer
 "
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'esensar/nvim-dev-container'
+"Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+"Plug 'esensar/nvim-dev-container'
 
 
 "" Include user's extra bundle
-if filereadable(expand("~/.config/nvim/local_bundles.vim"))
-  source ~/.config/nvim/local_bundles.vim
-endif
+"if filereadable(expand("~/.config/nvim/local_bundles.vim"))
+"  source ~/.config/nvim/local_bundles.vim
+"endif
 
-"
-"" ToDo
-"
+" TODO
+" https://github.com/PhilRunninger/nerdtree-visual-selection
+" vim-airline customization
 "https://github.com/tpope/vim-sensible
-
 call plug#end()
 "*******************************************************************************
 "*******************************************************************************
-
 
 "*******************************************************************************
 " Basic setup
@@ -389,32 +412,113 @@ map <leader>js :%!python -m json.tool<cr>
 " remove trailing whitespaces
 command! FixWhitespace :%s/\s\+$//e
 
-
+"*******************************************************************************
 "*******************************************************************************
 " Plugin settings
 "*******************************************************************************
 
 "
+"" Nerdtree
+"
+" map to ,nt "
+nnoremap <silent> <leader>nt :NERDTreeToggle<CR>
+" close nerdtree when opening file "
+let NERDTreeQuitOnOpen=1
+let g:NERDTreeIgnore=['\.pyc$','__pycache__']
+let g:NERDTreeShowBookmarks=1
+"let g:NERDTreeWinSize = 50
+"
+"" Tagbar
+"
+let g:tagbar_sort = 0
+nnoremap <silent> <leader>tg :TagbarToggle<CR>
+"
+" FZF
+"
+" fzf.vim
+let $FZF_DEFAULT_COMMAND =  "find * -path '*/\.*' -prune -o -path 'node_modules/**' -prune -o -path 'target/**' -prune -o -path 'dist/**' -prune -o  -type f -print -o -type l -print 2> /dev/null"
+" The Silver Searcher
+if executable('ag')
+  let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -g ""'
+  set grepprg=ag\ --nogroup\ --nocolor
+endif
+" ripgrep
+if executable('rg')
+  let $FZF_DEFAULT_COMMAND = 'rg --files --hidden --follow --glob "!.git/*"'
+  set grepprg=rg\ --vimgrep
+  command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
+endif
+" This is the default extra key bindings
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit' }
+" Default fzf layout
+let g:fzf_layout = { 'down': '~40%' }
+" Customize fzf colors to match your color scheme
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Comment'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Statement'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'] }
+" Enable per-command history.
+" CTRL-N and CTRL-P will be automatically bound to next-history and
+" previous-history instead of down and up. If you don't like the change,
+" explicitly bind the keys to down and up in your $FZF_DEFAULT_OPTS.
+let g:fzf_history_dir = '~/.local/share/fzf-history'
+" [Buffers] Jump to the existing window if possible
+let g:fzf_buffers_jump = 1
+" [[B]Commits] Customize the options used by 'git log':
+let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
+" [Tags] Command to generate tags file
+let g:fzf_tags_command = 'ctags -R'
+" [Commands] --expect expression for directly executing the command
+let g:fzf_commands_expect = 'alt-enter,ctrl-x'
+" Key bindings
+"nnoremap <silent> <leader>b :Buffers<CR>
+nnoremap <silent> <leader>ff :FZF -m<CR>
+"nnoremap <silent> <leader>E :History<CR>
+"
+
+
+"
 "" Colorscheme
 "
 " === Toggle light and dark scheme === "
+syntax enable
 set background=dark
-colorscheme solarized8
+colorscheme solarized
+let g:solarized_termcolors=256
 let g:togglebg="dark"
 let g:indentLine_setColors = 0
+
+if has('gui_running')
+    set background=light
+else
+    set background=dark
+endif
 
 function! Light()
     echom "bg to light"
     let g:togglebg="light"
 		set background=light
-		colorscheme solarized8
+    let g:solarized_contrast="high"
+		colorscheme solarized
 endfunction
 
 function! Dark()
     echom "bg to dark"
     let g:togglebg="dark"
 		set background=dark
-		colorscheme solarized8
+		colorscheme solarized
 endfunction
 
 function! ToggleLightDark()
@@ -428,19 +532,69 @@ endfunction
 " toggle colors to optimize based on light or dark background
 nnoremap <leader>tcs :call ToggleLightDark()<CR>
 
+"
+"" vim-airline
+"
+set noshowmode
+let g:airline_theme='dark'
+let g:airline_powerline_fonts=1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#show_buffers = 0
+let g:airline#extensions#ale#enabled = 1
+let g:airline#extensions#tagbar#enabled = 1
+let g:airline#extensions#branch#enabled = 1
+"let g:airline#extensions#virtualenv#enabled = 1
+"let g:airline_skip_empty_sections = 1
 
 "
-"" modern cpp highlight
+"" vim-sandwich
 "
-" Disable function highlighting (affects both C and C++ files)
-let g:cpp_function_highlight = 1
-" Enable highlighting of C++11 attributes
-let g:cpp_attributes_highlight = 1
-" Highlight struct/class member variables (affects both C and C++ files)
-let g:cpp_member_highlight = 1
-" Put all standard C and C++ keywords under Vim's highlight group 'Statement'
-" (affects both C and C++ files)
-let g:cpp_simple_highlight = 1
+"remap default keybinding starting with s to z because using default vim s'key
+"is slowing down
+let g:sandwich_no_default_key_mappings = 1
+silent! nmap <unique><silent> zd <Plug>(operator-sandwich-delete)<Plug>(operator-sandwich-release-count)<Plug>(textobj-sandwich-query-a)
+silent! nmap <unique><silent> zr <Plug>(operator-sandwich-replace)<Plug>(operator-sandwich-release-count)<Plug>(textobj-sandwich-query-a)
+silent! nmap <unique><silent> zdb <Plug>(operator-sandwich-delete)<Plug>(operator-sandwich-release-count)<Plug>(textobj-sandwich-auto-a)
+silent! nmap <unique><silent> zrb <Plug>(operator-sandwich-replace)<Plug>(operator-sandwich-release-count)<Plug>(textobj-sandwich-auto-a)
+
+let g:operator_sandwich_no_default_key_mappings = 1
+" add
+silent! map <unique> za <Plug>(operator-sandwich-add)
+" delete
+silent! xmap <unique> zd <Plug>(operator-sandwich-delete)
+" replace
+silent! xmap <unique> zr <Plug>(operator-sandwich-replace)
+
+"
+"" Undo tree
+"
+""nnoremap <F5> :UndotreeToggle<CR>
+"if has("persistent_undo")
+"   let target_path = expand('~/.undodir')
+"
+"    " create the directory and any parent directories
+"    " if the location does not exist.
+"    if !isdirectory(target_path)
+"        call mkdir(target_path, "p", 0700)
+"    endif
+"
+"    let &undodir=target_path
+"    set undofile
+"endif
+
+
+"
+"" vim-signify
+"
+nmap <leader>gn <plug>(signify-next-hunk)
+nmap <leader>gp <plug>(signify-prev-hunk)
+"nmap <leader>gN 9999<leader>gj
+"nmap <leader>gP 9999<leader>gk
+
+"
+"" git-conflict.nvim
+"
+lua require('git-conflict').setup()
 
 "
 "" ALE
@@ -450,16 +604,21 @@ let g:ale_lint_on_enter = 1
 let g:ale_fixers = {}
 let g:ale_fix_on_save = 1
 let g:ale_linters = {}
+nmap <leader>an :ALENext<cr>
+nmap <leader>ap :ALEPrevious<cr>
+nmap <leader>af :ALEFix<cr>
+nmap <leader>afw :ALEFix remove_trailing_lines<cr>:ALEFix trim_whitespace<cr>
+
 
 " === c/cpp === "
 let g:ale_cpp_gcc_executable = 'g++'
 " Set search paths for the compilation database (compile_commands.json)
-let g:ale_c_build_dir_names = ['build', 'bin', '_build', '_build-x86_64', '_build-cortex-a8', '_build_compile_commands']
-let g:ale_cpp_build_dir_names = ['build', 'bin', '_build', '_build-x86_64', '_build-cortex-a8', '_build_compile_commands']
+let g:ale_c_build_dir_names = ['_build-x86_64']
+let g:ale_cpp_build_dir_names = ['_build-x86_64']
 " Set enabled linters and fixers
-let g:ale_fixers['cpp'] = ['clang-format']
+"let g:ale_fixers['cpp'] = ['clang-format']
 let g:ale_linters['cpp'] = ['clangtidy', 'cppcheck', 'clangcheck', 'flawfinder']
-let g:ale_fixers['c'] = ['clang-format']
+"let g:ale_fixers['c'] = ['clang-format']
 let g:ale_linters['c'] = ['clangtidy', 'cppcheck', 'clangcheck', 'flawfinder']
 " Setup clang tidy
 let g:ale_cpp_clangtidy_executable = 'clang-tidy'
@@ -522,67 +681,24 @@ let g:ale_linters['dockerfile'] = ['dockerfile_lint']
 " === javascript === "
 "let g:ale_javascript_prettier_options = "--print-width 80 --prose-wrap always --parser markdown"
 
-nmap <leader>an :ALENext<cr>
-nmap <leader>ap :ALEPrevious<cr>
-nmap <leader>af :ALEFix<cr>
-nmap <leader>afw :ALEFix remove_trailing_lines<cr>:ALEFix trim_whitespace<cr>
+"
+"" vim-cpp-modern higlight
+"
+" Disable function highlighting (affects both C and C++ files)
+"let g:cpp_function_highlight = 1
+" Enable highlighting of C++11 attributes
+let g:cpp_attributes_highlight = 1
+" Highlight struct/class member variables (affects both C and C++ files)
+let g:cpp_member_highlight = 1
+" Put all standard C and C++ keywords under Vim's highlight group 'Statement'
+" (affects both C and C++ files)
+let g:cpp_simple_highlight = 1
 
-"
-"" vim-sandwich
-"
-
-"remap default keybinding starting with s to z because using default vim s'key
-"is slowing down
-let g:sandwich_no_default_key_mappings = 1
-silent! nmap <unique><silent> zd <Plug>(operator-sandwich-delete)<Plug>(operator-sandwich-release-count)<Plug>(textobj-sandwich-query-a)
-silent! nmap <unique><silent> zr <Plug>(operator-sandwich-replace)<Plug>(operator-sandwich-release-count)<Plug>(textobj-sandwich-query-a)
-silent! nmap <unique><silent> zdb <Plug>(operator-sandwich-delete)<Plug>(operator-sandwich-release-count)<Plug>(textobj-sandwich-auto-a)
-silent! nmap <unique><silent> zrb <Plug>(operator-sandwich-replace)<Plug>(operator-sandwich-release-count)<Plug>(textobj-sandwich-auto-a)
-
-let g:operator_sandwich_no_default_key_mappings = 1
-" add
-silent! map <unique> za <Plug>(operator-sandwich-add)
-" delete
-silent! xmap <unique> zd <Plug>(operator-sandwich-delete)
-" replace
-silent! xmap <unique> zr <Plug>(operator-sandwich-replace)
-
-"
-"" vim-airline
-"
-set noshowmode
-let g:airline_theme='dark'
-let g:airline_powerline_fonts=1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#show_buffers = 0
-let g:airline#extensions#ale#enabled = 1
-let g:airline#extensions#tagbar#enabled = 1
-let g:airline#extensions#branch#enabled = 1
-"let g:airline#extensions#virtualenv#enabled = 1
-"let g:airline_skip_empty_sections = 1
-
-"
-"" Nerdtree
-"
-" map to ,nt "
-nnoremap <silent> <leader>nt :NERDTreeToggle<CR>
-" close nerdtree when opening file "
-let NERDTreeQuitOnOpen=1
-let g:NERDTreeIgnore=['\.pyc$','__pycache__']
-let g:NERDTreeShowBookmarks=1
-"let g:NERDTreeWinSize = 50
-
-"
-"" Tagbar
-"
-let g:tagbar_sort = 0
-nnoremap <silent> <leader>tg :TagbarToggle<CR>
 
 "
 "" Pydocstring
 "
 let g:pydocstring_enable_mapping = 0
-"let g:pydocstring_templates_dir = '/home/knest/.vim/vim-pydocstring/template/pydocstring'
 
 "
 "" rst
@@ -621,37 +737,6 @@ let g:vim_markdown_new_list_item_indent = 2
 let g:instant_markdown_autostart = 0
 nmap <leader>md :InstantMarkdownPreview<cr>
 
-
-"
-"" Undo tree
-"
-"nnoremap <F5> :UndotreeToggle<CR>
-if has("persistent_undo")
-   let target_path = expand('~/.undodir')
-
-    " create the directory and any parent directories
-    " if the location does not exist.
-    if !isdirectory(target_path)
-        call mkdir(target_path, "p", 0700)
-    endif
-
-    let &undodir=target_path
-    set undofile
-endif
-
-"
-"" vim-signify
-"
-nmap <leader>gn <plug>(signify-next-hunk)
-nmap <leader>gp <plug>(signify-prev-hunk)
-"nmap <leader>gN 9999<leader>gj
-"nmap <leader>gP 9999<leader>gk
-
-"
-"" git-conflict.nvim
-"
-lua require('git-conflict').setup()
-
 "
 "" vim-pencil
 "
@@ -680,64 +765,9 @@ augroup autocorrect
 augroup END
 
 "
-" FZF
-"
-" fzf.vim
-let $FZF_DEFAULT_COMMAND =  "find * -path '*/\.*' -prune -o -path 'node_modules/**' -prune -o -path 'target/**' -prune -o -path 'dist/**' -prune -o  -type f -print -o -type l -print 2> /dev/null"
-" The Silver Searcher
-if executable('ag')
-  let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -g ""'
-  set grepprg=ag\ --nogroup\ --nocolor
-endif
-" ripgrep
-if executable('rg')
-  let $FZF_DEFAULT_COMMAND = 'rg --files --hidden --follow --glob "!.git/*"'
-  set grepprg=rg\ --vimgrep
-  command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
-endif
-" This is the default extra key bindings
-let g:fzf_action = {
-  \ 'ctrl-t': 'tab split',
-  \ 'ctrl-x': 'split',
-  \ 'ctrl-v': 'vsplit' }
-" Default fzf layout
-let g:fzf_layout = { 'down': '~40%' }
-" Customize fzf colors to match your color scheme
-let g:fzf_colors =
-\ { 'fg':      ['fg', 'Normal'],
-  \ 'bg':      ['bg', 'Normal'],
-  \ 'hl':      ['fg', 'Comment'],
-  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-  \ 'hl+':     ['fg', 'Statement'],
-  \ 'info':    ['fg', 'PreProc'],
-  \ 'prompt':  ['fg', 'Conditional'],
-  \ 'pointer': ['fg', 'Exception'],
-  \ 'marker':  ['fg', 'Keyword'],
-  \ 'spinner': ['fg', 'Label'],
-  \ 'header':  ['fg', 'Comment'] }
-" Enable per-command history.
-" CTRL-N and CTRL-P will be automatically bound to next-history and
-" previous-history instead of down and up. If you don't like the change,
-" explicitly bind the keys to down and up in your $FZF_DEFAULT_OPTS.
-let g:fzf_history_dir = '~/.local/share/fzf-history'
-" [Buffers] Jump to the existing window if possible
-let g:fzf_buffers_jump = 1
-" [[B]Commits] Customize the options used by 'git log':
-let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
-" [Tags] Command to generate tags file
-let g:fzf_tags_command = 'ctags -R'
-" [Commands] --expect expression for directly executing the command
-let g:fzf_commands_expect = 'alt-enter,ctrl-x'
-" Key bindings
-"nnoremap <silent> <leader>b :Buffers<CR>
-nnoremap <silent> <leader>ff :FZF -m<CR>
-"nnoremap <silent> <leader>E :History<CR>
-
-"
 " devcontainer
 "
-lua require("devcontainer").setup{}
+"lua require("devcontainer").setup{}
 
 " coc.nvim
 "

@@ -24,10 +24,9 @@ echo "Install and configure neovim"
 mkdir -p ~/bin
 wget https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage ~/bin
 ln -sr ~/bin/nvim.appimage ~/bin/nvim
+# TODO symlink coc and nvimrc
+echo "Start nvim and run :PlugInstall, restart nvim afterwards"
 
-echo "Install neovim plug manager and plugins dependencies"
-sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
-      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
 echo "Install and configure code-insiders"
 wget https://code.visualstudio.com/sha/download?build=insider&os=linux-deb-x64 ~/Downloads/vscode-insiders.deb
@@ -39,4 +38,21 @@ dpkg -i ~/Downloads/vscode-insiders.deb
 sudo apt install gitg
 sudo apt install howdoi
 sudo apt install ranger
+sudo apt install silversearcher-ag
+sudo apt install ripgrep
+sudo apt install clang-format
+sudo apt install clang-tidy
+sudo apt install ccpcheck
+sudo apt install clang
+sudo apt install flawfinder
+sudo apt install shellcheck
 
+pip install cmakelang
+pip install autopep8
+pip install pycodestyle
+pip install pylint
+pip install pydocstyle
+
+sudo npm install -g fixjson
+sudo npm install -g jsonlint
+sudo npm install -g dockerfile_lint
